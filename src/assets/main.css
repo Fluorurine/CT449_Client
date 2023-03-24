@@ -1,0 +1,12 @@
+/* import base của TailWind vào Project */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Đây là để ResetCss  */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+}
