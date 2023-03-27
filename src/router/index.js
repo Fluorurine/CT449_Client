@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import FormDangNhap from '@/views/FormDangNhap.vue'
-import FormDangNhap from '@/views/FormDangKy.vue'
-import TestComp from '@/views/TestComp.vue'
+import FormDangKy from '@/views/FormDangKy.vue'
+import TestComp from '@/components/TestComp.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

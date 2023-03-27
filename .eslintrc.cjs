@@ -11,8 +11,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest'
   },
-  'css.lint.unknownAtRules': 'ignore',
-  'scss.lint.unknownAtRules': 'ignore',
+
   overrides: [
     {
       files: ['*.config.js'],
