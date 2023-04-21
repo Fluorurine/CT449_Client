@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center h-screen">
-    <form class="border border-gray-300 rounded-lg w-4/5 block py-16">
+    <form @submit.prevent="test" class="border border-gray-300 rounded-lg w-4/5 block py-16">
       <h5 class="mb-2 ml-10 text-2xl font-semibold tracking-tight text-gray-900">
         Vui lòng nhập thông tin để đăng nhập
       </h5>
@@ -9,7 +9,8 @@
           >Tên người dùng</label
         >
         <input
-          type="username"
+          v-model="username"
+          type="text"
           id="username"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:outline hover:outline-2 hover:outline-blue-500 focus:outline-blue-500 block w-4/5 ml-10 p-2.5"
           placeholder="Vui lòng nhập tên người dùng"
@@ -21,6 +22,7 @@
           >Mật khẩu</label
         >
         <input
+          v-model="password"
           type="password"
           id="password"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:outline hover:outline-2 hover:outline-blue-500 focus:outline-blue-500 block w-4/5 ml-10 p-2.5"
@@ -35,7 +37,6 @@
             type="checkbox"
             value=""
             class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
-            required
           />
         </div>
         <label for="remember" class="ml-2 text-sm font-medium text-gray-900">Nhớ mật khẩu</label>
@@ -56,4 +57,14 @@
   </div>
 </template>
 <style></style>
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import ApiService from '@/services/client.services'
+const username = ref('')
+const password = ref('')
+const test = async () => {
+  //Do ApiService là hàm async và trả về Promise nên ta sẽ await thêm một lần nữa
+  const data = await ApiService.login({ username: username.value, password: password.value })
+  console.log(data)
+}
+</script>
