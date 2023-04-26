@@ -59,7 +59,7 @@
             {{ item.productname }}
           </th>
           <td class="py-4 px-6">{{ item.createdAt }}</td>
-          <td class="py-4 px-6">{{ item.productcategory }}</td>
+          <td class="py-4 px-6">{{ item.category }}</td>
           <td class="py-4 px-6">{{ item.productminprice }}</td>
           <td class="py-4 px-6 text-right">
             <a
@@ -92,37 +92,13 @@ onMounted(() => {
 const currentproduct = ref(null)
 const isModalVisible = ref(false)
 const isAddModalVisble = ref(false)
-const productdata = ref([
-  {
-    productid: '',
-    productname: 'Đây là sản phẩm Test',
-    productimage: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg',
-    productminprice: 9000,
-    productsell: 0
-  },
-  {
-    productid: '',
-    productname: 'Đây là sản phẩm Test2',
-    productcategory: 'CAT1',
-    productimage: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg',
-    productminprice: 9000,
-    productsell: 0
-  },
-  {
-    productid: '',
-    productname: 'Đây là sản phẩm Test3',
-    productimage: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg',
-    productminprice: 9000,
-    productsell: 0
-  }
-])
+const productdata = ref([])
 const refreshList = async () => {
-  const tmp = await ApiService.getProductUser()
+  const tmp = await ApiService.getProductAdmin()
   if (tmp.err) {
     alert('Người dùng chưa đăng nhập')
     return
   }
-  console.log(tmp)
   productdata.value = tmp
 }
 

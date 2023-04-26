@@ -1,12 +1,13 @@
 <template>
-  <p>Trở về trang chủ</p>
-  <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-20">
+  <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
     <h1 class="text-4xl font-bold tracking-tight text-gray-900">Chọn danh mục sản phẩm</h1>
     <div class="flex items-center">
       <!-- Menu -->
       <div class="relative inline-block text-left"></div>
       <div class="pr-10">
         <button
+          @mouseover="toogletype"
+          @mouseleave="toggletype"
           type="button"
           class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
           id="menu-button"
@@ -28,6 +29,7 @@
           </svg>
         </button>
         <div
+          v-show="typeview"
           class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
           role="menu"
           tabindex="-1"
@@ -40,7 +42,7 @@
                 -->
             <a
               @click.prevent="setSortType(1)"
-              class="font-medium text-gray-900 block px-4 py-2 text-sm cursor-pointer"
+              class="font-medium text-gray-500 block px-4 py-2 text-sm cursor-pointe hover:text-gray-900"
               role="menuitem"
               tabindex="-1"
               id="menu-item-0"
@@ -49,7 +51,7 @@
 
             <a
               @click.prevent="setSortType(2)"
-              class="text-gray-500 block px-4 py-2 text-sm cursor-pointer"
+              class="text-gray-500 block px-4 py-2 text-sm cursor-pointer hover:text-gray-900"
               role="menuitem"
               tabindex="-1"
               id="menu-item-1"
@@ -58,7 +60,7 @@
 
             <a
               @click.prevent="setSortType(3)"
-              class="text-gray-500 block px-4 py-2 text-sm cursor-pointer"
+              class="text-gray-500 block px-4 py-2 text-sm cursor-pointer hover:text-gray-900"
               role="menuitem"
               tabindex="-1"
               id="menu-item-3"
@@ -67,7 +69,7 @@
 
             <a
               @click.prevent="setSortType(4)"
-              class="text-gray-500 block px-4 py-2 text-sm cursor-pointer"
+              class="text-gray-500 block px-4 py-2 text-sm cursor-pointer hover:text-gray-900"
               role="menuitem"
               tabindex="-1"
               id="menu-item-4"
@@ -84,28 +86,31 @@
       <div
         class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
       >
-        <a v-for="item in productdata" :key="item._id" href="#" class="group">
-          <div
-            class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
-          >
-            <img
-              :src="item.productimage"
-              :alt="item.productname"
-              class="imagesize object-cover object-center group-hover:opacity-75"
-            />
-          </div>
-
-          <div class="flex items-baseline justify-between">
-            <div>
-              <h3 class="mt-4 text-sm text-gray-700">{{ item.productname }}</h3>
-              <p class="mt-1 text-lg font-medium text-gray-900">Giá: {{ item.productminprice }}</p>
+        <div v-for="item in productdata" :key="item._id" class="group">
+          <router-link :to="'/product/detail/?Id=' + item._id">
+            <div
+              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+            >
+              <img
+                :src="item.productimage"
+                :alt="item.productname"
+                class="imagesize object-cover object-center group-hover:opacity-75"
+              />
             </div>
-            <div>
-              <p class="text-sm text-gray-700">Đã bán: {{ item.productsell }}</p>
-              <p class="mt-2 text-sm text-gray-700">4.5/5 sao</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <h3 class="mt-4 text-sm text-gray-700 font-semibold">{{ item.productname }}</h3>
+                <p class="mt-1 text-lg font-medium text-gray-900">
+                  Giá: {{ item.productminprice }}
+                </p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-700">Đã bán: {{ item.productsell }}</p>
+                <p class="mt-2 text-sm text-yellow-400"></p>
+              </div>
             </div>
-          </div>
-        </a>
+          </router-link>
+        </div>
         <div v-if="!productdata">Không có dữ liệu để hiển thị</div>
       </div>
       <div class="flex flex-1 justify-center mt-14">
@@ -133,6 +138,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 import ApiService from '@/services/client.services'
+const typeview = ref(false)
 const route = useRoute()
 onMounted(async () => {
   productdata.value = await ApiService.categorysearch(route.query.categoryId, 0, 1)
@@ -163,7 +169,9 @@ const setSortType = async (num) => {
   productdata.value = await ApiService.categorysearch(route.query.categoryId, 0, num)
   console.log('Đã fetch')
 }
-
+const toogletype = () => {
+  typeview.value = !typeview.value
+}
 const nextButton = async () => {
   let test
 

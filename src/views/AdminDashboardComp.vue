@@ -4,14 +4,14 @@
     <div class="w-[400px] h-full bg-gray-200 text-white" v-show="showSide">
       <div class="h-[50px] bg-gray-900 flex justify-start items-center">
         <div class="px-[20px]">
-          <h3 class="font-bold text-xl">Bảng tin người dùng</h3>
+          <h3 class="font-bold text-xl">Bảng tin quản lý</h3>
         </div>
       </div>
       <div class="h-[calc(100vh-50px)] bg-gray-800 py-[20px]">
         <div class="flex flex-col justify-between h-full px-[20px] space-y-[10px]">
           <div class="flex flex-col justify-between space-y-[10px]">
             <router-link
-              to="/dashboard/"
+              to="/admin"
               class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
             >
               <svg
@@ -25,10 +25,10 @@
                   d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"
                 ></path>
               </svg>
-              Thông tin tài khoản
+              Quản lý tài khoản
             </router-link>
             <router-link
-              to="/dashboard/product"
+              to="/admin/product"
               class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
             >
               <svg
@@ -47,7 +47,7 @@
               Quản lý sản phẩm
             </router-link>
             <router-link
-              to="/dashboard/transaction"
+              to="/admin/transaction"
               class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md rounded-b-lg hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
             >
               <svg

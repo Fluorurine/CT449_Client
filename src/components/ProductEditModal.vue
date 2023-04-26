@@ -53,9 +53,10 @@
           >
             <option disabled>Chọn danh mục</option>
             <option value="CAT1">Điện thoại</option>
-            <option value="CAT2">Quần áo</option>
-            <option value="CAT3">Linh kiện điện tử</option>
-            <option value="CAT4">Máy tính</option>
+            <option value="CAT2">Dụng cụ gia dụng</option>
+            <option value="CAT3">Quần áo</option>
+            <option value="CAT4">Giày dép</option>
+            <option value="CAT5">Sách</option>
           </select>
         </div>
         <div class="mb-6">
@@ -175,6 +176,7 @@ const productcategory = ref('')
 const productdescription = ref('')
 const fileInput = ref(null)
 const error = ref('')
+const productId = ref(null)
 const sucessstatus = ref('')
 const productvariant = ref([{ variantname: 0, variantprice: 0, variantcount: 0 }])
 const productimage = ref('')
@@ -191,6 +193,7 @@ watch(
     productdescription.value = newValue.productdescription
     productvariant.value = newValue.productvariant
     productimage.value = newValue.productimage
+    productId.value = newValue._id
   }
 )
 const close = () => {
@@ -225,6 +228,7 @@ const handleFileUpload = () => {
 }
 const productsubmit = async () => {
   console.log({
+    productId: productId.value,
     productname: productname.value,
     productcategory: productcategory.value,
     productdescription: productdescription.value,
@@ -232,8 +236,8 @@ const productsubmit = async () => {
     productimage: productimage.value
   })
   const result = await ApiService.createProduct({
-    flag: 'edit',
-    productId: productname.value._id,
+    flag: 'update',
+    productId: productId.value,
     productname: productname.value,
     productcategory: productcategory.value,
     productdescription: productdescription.value,

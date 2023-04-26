@@ -19,7 +19,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item, index) in cartdata"
+            v-for="(item, index) in localcart"
             :key="index"
             class="bg-white border-b hover:bg-gray-50"
           >
@@ -116,49 +116,50 @@
 </template>
 <style></style>
 <script setup>
-import { ref, onMounted, computed } from 'vue'
 import ApiService from '@/services/client.services'
-// Hai cái localCart là để chứa data lấy vè từ localSto còn cart data là để lấy từ API về
-const cartdata = ref([])
+import { ref, onMounted, computed } from 'vue'
+
 const localcart = ref([])
-onMounted(async () => {
-  localcart.value = localStorage.getItem('cart')
-  const data = await ApiService.getCartItems(localcart)
-  for (let i = 0; i < cartdata.value.length; i++) {
-    cartdata.value[i].variantname = localcart[i].variantname
-    cartdata.value[i].variantprice = localcart[i].variantprice
-    cartdata.value[i].quantity = localcart[i].quantity
+onMounted(
+  //TODO thay bang ham refresh list
+  () => {
+    localcart.value = JSON.parse(localStorage.getItem('cart'))
+    console.log(localcart.value)
+    //cẦN Sync giữa local và data trả về do
+    // Dữ liệu có thể bị thay đổi khi người đăng thêm chỉnh sửa hoặc xóa nhưng do quá phức tạp nên không implement
   }
-  cartdata.value = data
-})
+)
+// Trả về total các giá trị
 const totalcount = computed(() => {
   let value = 0
-  for (let i = 0; i < cartdata.value.length; i++) {
-    value += cartdata[i].variantprice
+  for (const i of localcart.value) {
+    value += i.variantprice * i.quantity
   }
   return value
 })
+
+// Khi tăng hàm lên thì cập nhật lại cả 2 cái
 const handleIncrease = (index) => {
   localcart.value[index].quantity++
-  localStorage.setItem('cart', localcart.value)
-  cartdata.value[index].quantity++
+  localStorage.setItem('cart', JSON.stringify(localcart.value))
 }
 const handleDecrease = (index) => {
   localcart.value[index].quantity--
-  localStorage.setItem('cart', localcart.value)
-  cartdata.value[index].quantity--
+  localStorage.setItem('cart', JSON.stringify(localcart.value))
 }
 const removeItems = (index) => {
   localcart.value = localcart.value.filter((_, i) => {
     return i !== index
   })
-  localStorage.setItem('cart', localcart.value)
-  cartdata.value = cartdata.value.filter((_, i) => {
-    return i !== index
-  })
+  localStorage.setItem('cart', JSON.stringify(localcart.value))
 }
 //TODO : Thêm thanh toán vào Trasition DB
-const handleSubmit = () => {
-  alert('Chức năng chưa được thêm vào')
+const handleSubmit = async () => {
+  const test = await ApiService.addTransaction(JSON.parse(JSON.stringify(localcart.value)))
+  if (!test || test.err) {
+    alert('Có lỗi trong quá trình tạo giao dịch')
+    return
+  }
+  alert('Đã tạo giao dịch thành công')
 }
 </script>

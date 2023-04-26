@@ -58,13 +58,30 @@
 </template>
 <style></style>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ApiService from '@/services/client.services'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const username = ref('')
 const password = ref('')
+onMounted(async () => {
+  const userinfo = await ApiService.getUserInfo()
+  console.log(userinfo)
+  if (userinfo.err) {
+    console.log(userinfo.err)
+    return
+  }
+  router.push('/')
+})
+
 const test = async () => {
-  //Do ApiService là hàm async và trả về Promise nên ta sẽ await thêm một lần nữa
+  // Do ApiService là hàm async và trả về Promise nên ta sẽ await thêm một lần nữa
   const data = await ApiService.login({ username: username.value, password: password.value })
+  if (!data || data.err) {
+    console.log(data.err)
+    return
+  }
   console.log(data)
+  router.go()
 }
 </script>

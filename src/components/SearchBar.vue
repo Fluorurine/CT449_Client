@@ -1,17 +1,17 @@
 <template>
   <div
     @click="closeSearch"
-    class="h-[60px] bg-gray-100 flex items-center shadow-sm px-[20px] w-full py-[10px] z-10 border-b"
+    class="h-[60px] fixed bg-gray-100 flex items-center shadow-sm px-[20px] w-full py-[10px] z-10 border-b"
   >
     <!-- Hambuger menu -->
-    <div class="cursor-pointer" @click="toggleSideBar">
-      <img
+    <div class="cursor-pointer" @click="toggleSideBar"></div>
+    <RouterLink to="/"
+      ><img
         src="/upload/Logo.png
-      "
-        alt="Anhr Logo"
+          "
+        alt="Ảnh Logo"
         class="w-16 h-16"
-      />
-    </div>
+    /></RouterLink>
     <!-- Search bar -->
     <div class="w-[calc(100%-30px)] flex">
       <div class="w-[calc(100%-200px)] flex justify-center">
@@ -24,9 +24,8 @@
               v-model="searchValue"
               type="text"
               id="search"
-              class="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-              placeholder="Search..."
-              required
+              class="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+              placeholder="Tìm kiếm sản phẩm"
             />
             <div
               v-show="showSearch"
@@ -42,17 +41,22 @@
                 :key="index"
                 role="none"
               >
-                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-
-                <div class="flex justify-between">
-                  <div class="flex">
-                    <div class="ml-2">
-                      <img class="w-10 h-10 p-1" :src="item.productimage" :alt="item.productname" />
+                <router-link :to="'/product/detail/?Id=' + item._id">
+                  <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                  <div class="flex justify-between">
+                    <div class="flex">
+                      <div class="ml-2">
+                        <img
+                          class="w-10 h-10 p-1"
+                          :src="item.productimage"
+                          :alt="item.productname"
+                        />
+                      </div>
+                      <div class="ml-2">{{ item.productname }}</div>
                     </div>
-                    <div class="ml-2">{{ item.productname }}</div>
+                    <div class="mr-2">{{ item.productminprice }}</div>
                   </div>
-                  <div class="mr-2">{{ item.productminprice }}</div>
-                </div>
+                </router-link>
               </div>
             </div>
             <div class="flex absolute inset-y-0 right-0 items-center pr-3">
@@ -72,16 +76,16 @@
         </form>
       </div>
       <!-- User login -->
-      <div class="w-[200px]">
+      <div v-if="userdata" class="w-[200px]">
         <div class="flex items-center justify-start space-x-4" @click="toggleDrop">
           <img
             class="w-10 h-10 rounded-full border-2 border-gray-50"
-            src="https://yt3.ggpht.com/hqsxh-Vnbw9OK0_X4DAWh6RkmEUVnL-82SRCyh-IKr9fIXR8zhUCRdBEwgWWL_14q_L8Piod=s108-c-k-c0x00ffffff-no-rj"
+            :src="userdata.userimage ? userdata.userimage : '\\upload\\blank_picture.png'"
             alt=""
           />
           <div class="font-semibold text-left">
-            <div>Madona ,Dev OP</div>
-            <div class="text-xs text-gray-500">Admin</div>
+            <div>{{ userdata.username }}</div>
+            <div class="text-xs text-gray-500 w-[100px] truncate">{{ userdata.useremail }}</div>
           </div>
         </div>
         <!-- Drop down -->
@@ -95,50 +99,89 @@
         >
           <div class="py-1 text-left" role="none">
             <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-            <a
-              href="#"
-              class="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-0"
-              >Account settings</a
-            >
-            <a
-              href="#"
-              class="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-1"
-              >Support</a
-            >
-            <a
-              href="#"
+            <router-link to="/dashboard">
+              <div
+                class="text-gray-700 block px-4 py-2 text-sm"
+                role="menuitem"
+                tabindex="-1"
+                id="menu-item-1"
+              >
+                Thông tin tài khoản
+              </div>
+            </router-link>
+            <router-link to="/dashboard/product">
+              <div
+                class="text-gray-700 block px-4 py-2 text-sm"
+                role="menuitem"
+                tabindex="-1"
+                id="menu-item-1"
+              >
+                Sản phẩm đã đăng
+              </div>
+            </router-link>
+            <router-link to="/cart">
+              <div
+                class="text-gray-700 block px-4 py-2 text-sm"
+                role="menuitem"
+                tabindex="-1"
+                id="menu-item-1"
+              >
+                Giỏ hàng
+              </div>
+            </router-link>
+            <div
               class="text-gray-700 block px-4 py-2 text-sm"
               role="menuitem"
               tabindex="-1"
               id="menu-item-2"
-              >License</a
             >
+              <router-link to="/dashboard/transaction"> Các giao dịch</router-link>
+            </div>
             <form method="POST" action="#" role="none">
               <button
+                @click="signout"
                 type="submit"
                 class="text-gray-700 block w-full px-4 py-2 text-left text-sm"
                 role="menuitem"
                 tabindex="-1"
                 id="menu-item-3"
               >
-                Sign out
+                Đăng xuất
               </button>
             </form>
           </div>
         </div>
       </div>
+
+      <div
+        v-if="!userdata"
+        class="w-[200px] flex justify-around mt-2 text-blue-400 underline font-semibold"
+      >
+        <RouterLink to="/login">Đăng nhập</RouterLink>
+        <RouterLink to="/register">Đăng ký</RouterLink>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
+import { RouterLink, useRouter } from 'vue-router'
 import ApiService from '@/services/client.services'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+const userdata = ref(null)
+const router = useRouter()
+const signout = async () => {
+  await ApiService.logOut()
+
+  router.go()
+}
+onMounted(async () => {
+  const data = await ApiService.getUserInfo()
+  if (data.err) {
+    console.log(data.err)
+    return
+  }
+  userdata.value = data
+})
 const showDropDown = ref(false)
 const showSearch = ref(false)
 const searchValue = ref('')

@@ -53,9 +53,10 @@
           >
             <option disabled>Chọn danh mục</option>
             <option value="CAT1">Điện thoại</option>
-            <option value="CAT2">Quần áo</option>
-            <option value="CAT3">Linh kiện điện tử</option>
-            <option value="CAT4">Máy tính</option>
+            <option value="CAT2">Dụng cụ gia dụng</option>
+            <option value="CAT3">Quần áo</option>
+            <option value="CAT4">Giày dép</option>
+            <option value="CAT5">Sách</option>
           </select>
         </div>
         <div class="mb-6">
