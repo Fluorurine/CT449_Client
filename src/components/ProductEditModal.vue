@@ -7,7 +7,7 @@
       <form @submit.prevent="productsubmit" class="w-full p-4">
         <div class="flex items-start p-4 border-b rounded-t">
           <div class="text-xl font-semibold text-gray-900">
-            <p>Vui lòng nhập thông tin để thêm sản phẩm</p>
+            <p>Vui lòng nhập thông tin để cập nhật sản phẩm</p>
           </div>
           <button
             type="button"

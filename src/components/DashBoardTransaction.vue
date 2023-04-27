@@ -40,10 +40,13 @@
             }}
           </td>
 
-          <td class="py-4 px-6 text-right">
-            <a @click="handleClick(index)" href="#" class="font-medium text-blue-600 underline"
-              >Xem nội dung</a
-            >
+          <td class="py-4 px-6 text-right flex flex-col">
+            <div @click="handleClick(index)" class="font-medium text-blue-600 underline">
+              Xem nội dung
+            </div>
+            <div class="font-medium text-red-600 underline" @click="handleDelete(item._id)">
+              Xóa
+            </div>
           </td>
         </tr>
       </tbody>
@@ -85,5 +88,13 @@ const toogleTransactionModal = () => {
 const handleClick = (i) => {
   currenttransaction.value = transactiondata.value[i]
   toogleTransactionModal()
+}
+const handleDelete = async (id) => {
+  const data = await ApiService.deleteTransaction(id)
+  if (data.err) {
+    return
+  }
+  alert('Xóa thành công')
+  refreshList()
 }
 </script>

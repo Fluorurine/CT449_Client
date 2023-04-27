@@ -77,7 +77,7 @@
             <div>
               <label
                 class="block mb-2 text-base font-medium text-gray-900 text-ellipsis whitespace-nowrap overflow-hidden"
-                >Tên loại {{ index }}</label
+                >Tên loại {{ index + 1 }}</label
               >
               <input
                 @change="updateVariantName(item, index)"

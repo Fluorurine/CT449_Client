@@ -26,7 +26,7 @@
               :key="i"
               :class="[
                 'w-5 h-5 ',
-                i > Math.floor(productdata.totalstar / (productdata.reviewcount * 5))
+                i > Math.ceil((productdata.totalstar / (productdata.reviewcount * 5)) * 5)
                   ? 'text-gray-300'
                   : 'text-yellow-400'
               ]"

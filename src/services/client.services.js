@@ -56,4 +56,14 @@ ApiService.getUserInfo = async () => {
 ApiService.logOut = async () => {
   return (await api.get('/login/logout')).data
 }
+ApiService.deleteProduct = async (id) => {
+  return (await api.delete(`/products/?Id=${id}`)).data
+}
+ApiService.deleteUserById = async (id) => {
+  return (await api.delete(`/customers?id=${id}`)).data
+}
+ApiService.deleteTransaction = async (id) => {
+  return (await api.delete(`/transaction?id=${id}`)).data
+}
+
 export default ApiService

@@ -54,7 +54,9 @@
                       </div>
                       <div class="ml-2">{{ item.productname }}</div>
                     </div>
-                    <div class="mr-2">{{ item.productminprice }}</div>
+                    <div class="mr-2">
+                      {{ parseInt(item.productminprice).toLocaleString() }}
+                    </div>
                   </div>
                 </router-link>
               </div>

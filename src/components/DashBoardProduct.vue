@@ -63,7 +63,7 @@
           <td class="py-4 px-6">{{ item.productminprice }}</td>
           <td class="py-4 px-6 text-right">
             <a
-              @click.stop="handleClick"
+              @click.stop="handleClick(item._id)"
               href="#"
               class="block font-medium text-red-600 no-underline"
               >Xóa</a
@@ -140,7 +140,12 @@ const handleRow = (i) => {
 }
 
 //TODO Implemement delete function
-const handleClick = () => {
-  console.log('Click Xoa')
+const handleClick = async (id) => {
+  console.log(id)
+  const tmp = await ApiService.deleteProduct(id)
+  if (tmp.err) {
+    console.log('Có lỗi khi xóa dữ liệu')
+  }
+  refreshList()
 }
 </script>

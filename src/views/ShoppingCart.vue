@@ -102,7 +102,7 @@
       </table>
       <div class="flex justify-between text-xl font-semibold">
         <p class="pl-8">Tổng số tiền phải thanh toán</p>
-        <p class="pr-8">{{ totalcount }}VND</p>
+        <p class="pr-8">{{ parseInt(totalcount).toLocaleString() }}VND</p>
       </div>
     </div>
     <button

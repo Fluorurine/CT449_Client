@@ -23,7 +23,7 @@
           <th scope="row" class="py-4 px-6 font-medium text-gray-900">
             {{ item.username }}
           </th>
-          <td class="py-4 px-6">{{ item.useremail }}</td>
+          <td class="py-4 px-6">{{ item.email }}</td>
           <td class="py-4 px-6">
             {{
               new Date(item.createdAt).toLocaleString('en-US', {
@@ -58,6 +58,7 @@ onMounted(() => {
 const userdata = ref([])
 const refreshList = async () => {
   const tmp = await ApiService.getAllUser()
+  console.log(tmp)
   if (!tmp || tmp.err) {
     alert('Người dùng chưa đăng nhập')
     return
